@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/global.css">
+</head>
+<body id="top">
+  <template id="content-container">
+    <div class="nav-content-container">
+      <aside>
+        <img class="profile" src="assets/images/default-profile.png">
+        <nav>
+          <slot class="menu" name="menu"></slot>
+        </nav>
+      </aside>
+      <main>
+        <slot name="content"></slot>
+        <a href="#top" class="to-top">toTop</a>
+      </main>
+    </div>
+
+    <footer></footer>
+  </template>
+
+
+
+  <content-container>  
+  </content-container>
+
+  <script type="module">import './js/index.js';</script>
+</body>
+</html>

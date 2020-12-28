@@ -1,2 +1,2 @@
 # native-blog
-Create a blog app with native javascript
+Create a blog app with native javascript (chrome only)
