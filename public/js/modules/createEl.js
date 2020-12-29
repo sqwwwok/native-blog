@@ -5,11 +5,11 @@
  * @returns {HTMLElement} 
  */
 function _(creator, props={}, children=[]) {
-  let tagMatch = creator.match(/^\w+/);
+  let tagMatch = creator.match(/^[^\.\#]+/);
   let el = tagMatch ? document.createElement(tagMatch[0]) : document.createElement('div');
   el.append(...children);
   Object.keys(props).map(key=>el.setAttribute(key, props[key]));
-  return addId(el, creator.replace(/^\w+/,''));
+  return addId(el, creator.replace(/^[^\.\#]+/,''));
 }
 
 /**
@@ -47,7 +47,8 @@ function createStyle(href) {
   })
 }
 
+
 export {
   _ as default,
-  createStyle
+  createStyle,
 }

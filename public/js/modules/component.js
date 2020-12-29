@@ -40,14 +40,13 @@ class Component extends HTMLElement {
 
 }
 
-
+//TODO add plugins option
 /** create and register component 
  * @param {string} name name must be kebal-case
  * @param {{
  *    slots: {[slotName:string]:Array<HTMLElement>}, 
  *    templates: Array<HTMLTemplateElement>, 
  *    expand: (param :{
- *        component: Component, 
  *        templates:Array<HTMLElement>,
  *        slots:{[slotName:string]:Array<HTMLElement>}
  *    }) => void,
@@ -55,7 +54,7 @@ class Component extends HTMLElement {
  * }} param1
  * @returns {Component}
  */
-function createComponent(name, {slots, templates, expand, styles}) {
+function createComponent(name, {slots=[], templates=[], expand=()=>{}, styles=[]}) {
   let customComponent = class extends Component{
     constructor() {
       super();
@@ -72,7 +71,6 @@ function createComponent(name, {slots, templates, expand, styles}) {
 
       // hook
       expand({
-        component:this, 
         templates:clonedTemplates,
         slots: clonedSlots
       });
@@ -92,4 +90,18 @@ function createComponent(name, {slots, templates, expand, styles}) {
   return customComponent;
 }
 
+function createMiniComponent(name) {
+  let customComponent = class extends HTMLElement{
+    constructor() {
+      super();
+      this.attachShadow({mode: 'open'});
+    }
+
+    append(...elements) {
+      this.__proto__.append.apply(this.shadowRoot, elements.map(el=>el.cloneNode(true)));
+    }
+  }
+}
+
 export default createComponent;
+export {createMiniComponent};

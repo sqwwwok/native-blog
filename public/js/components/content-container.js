@@ -3,30 +3,38 @@ import {$1} from '../modules/getEl.js'
 import _ from '../modules/createEl.js'
 
 
-export default function({ navgation, profile }) {
-  let navTitles = Object.keys(navgation);
-  let defaultTitle = navTitles[0];
-  cc('content-container',{
+export default function({ name, navgation, profile }) {
+  const navTitles = Object.keys(navgation),
+  contentAttrName = 'nav-to',
+  contentEls = navTitles.map(title=>_(navgation[title]));
+  console.log(contentEls)
+  cc(name,{
     templates: [$1('#content-container')],
     slots: {
       'menu': navTitles.map(title=>
-        _('span.menu-item',{href: navgation[title]}, [title])
+        _('span.menu-item',{[contentAttrName]: navgation[title]}, [title])
       ),
-      'profile': [_('img', {src: profile})],
-      'content': [_('iframe', {src: navgation[defaultTitle]})]
+      'content': contentEls,
     },
     styles: ['../css/content-container.css'],
     expand({templates, slots}) {
-      slots['menu'][0].classList.add('nav-choosen');
       $1.call(templates[0],'img.profile').src=profile;
-      slots['menu'].map(slot=>{
-        let iframeHref = slot.getAttribute('href');
-        slot.addEventListener('click', (e)=>{
-          slots['content'][0].setAttribute('src', iframeHref);
-          slots['menu'].map(slot=>slot.classList.remove('nav-choosen'));
-          slot.classList.add('nav-choosen');
+      const navItems = slots['menu'],
+      contents = slots['content'],
+      choosenClass = 'nav-choosen';
+      navItems.map(nav=>{
+        nav.addEventListener('click', ()=>{
+          //TODO use 'choose' plugin
+          const nextContentName = nav.getAttribute(contentAttrName);
+          contents.map(content=>content.classList.remove(choosenClass));
+          contents.find(content=>content.localName===nextContentName).classList.add(choosenClass);
+          navItems.map(nav=>nav.classList.remove(choosenClass));
+          nav.classList.add(choosenClass);
         })
-      })
+      });
+      let defaultContentName = navItems[0].getAttribute(contentAttrName);
+      navItems[0].classList.add(choosenClass);
+      contents.find(content=>content.localName===defaultContentName).classList.add(choosenClass);
     }
   })
 }

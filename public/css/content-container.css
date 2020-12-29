@@ -1,6 +1,6 @@
 .nav-content-container{
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 6fr;
   min-height: 100%;
 }
 
@@ -19,10 +19,10 @@ main{
 
 
 img.profile{
-  /* cursor: pointer; */
-  padding: 2rem;
+  margin: 2rem;
   width: 60%;
-  height: 60%;
+  border: solid;
+  border-radius: 60%;
 }
 nav{
   width: 100%;

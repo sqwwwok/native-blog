@@ -7,23 +7,30 @@
   <link rel="stylesheet" href="css/global.css">
 </head>
 <body id="top">
-  <template id="content-container">
-    <div class="nav-content-container">
-      <aside>
-        <img class="profile" src="assets/images/default-profile.png">
-        <nav>
-          <slot class="menu" name="menu"></slot>
-        </nav>
-      </aside>
-      <main>
-        <slot name="content"></slot>
-        <a href="#top" class="to-top">toTop</a>
-      </main>
-    </div>
-
-    <footer></footer>
-  </template>
-
+  <span class="templates">
+    <template id="content-container">
+      <div class="nav-content-container">
+        <aside>
+          <img class="profile" src="assets/images/default-profile.png">
+          <nav>
+            <slot class="menu" name="menu"></slot>
+          </nav>
+        </aside>
+        <main>
+          <slot name="content"></slot>
+          <a href="#top" class="to-top">toTop</a>
+        </main>
+      </div>
+  
+      <footer></footer>
+    </template>
+  
+    <template id="home"></template>
+  
+    <template id="blogs"></template>
+  
+    <template id="docs"></template>
+  </span>
 
 
   <content-container>  
