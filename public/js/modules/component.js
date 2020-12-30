@@ -40,7 +40,6 @@ class Component extends HTMLElement {
 
 }
 
-//TODO add plugins option
 /** create and register component 
  * @param {string} name name must be kebal-case
  * @param {{

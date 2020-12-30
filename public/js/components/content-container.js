@@ -1,6 +1,7 @@
 import cc from '../modules/component.js'
 import {$1} from '../modules/getEl.js'
 import _ from '../modules/createEl.js'
+import createChoice from '../modules/choose.js'
 
 
 export default function({ name, navgation, profile }) {
@@ -21,20 +22,21 @@ export default function({ name, navgation, profile }) {
       $1.call(templates[0],'img.profile').src=profile;
       const navItems = slots['menu'],
       contents = slots['content'],
-      choosenClass = 'nav-choosen';
+      chooseNav = createChoice(navItems, {
+        activeClassName: 'nav-choosen', 
+        defaultElementIndex:0
+      }),
+      chooseContent = createChoice(contents, {
+        activeClassName:'content-choosen', 
+        defaultElementIndex:0
+      });
       navItems.map(nav=>{
         nav.addEventListener('click', ()=>{
-          //TODO use 'choose' plugin
           const nextContentName = nav.getAttribute(contentAttrName);
-          contents.map(content=>content.classList.remove(choosenClass));
-          contents.find(content=>content.localName===nextContentName).classList.add(choosenClass);
-          navItems.map(nav=>nav.classList.remove(choosenClass));
-          nav.classList.add(choosenClass);
+          chooseContent(content=>content.localName===nextContentName);
+          chooseNav(navItem=>navItem===nav);
         })
       });
-      let defaultContentName = navItems[0].getAttribute(contentAttrName);
-      navItems[0].classList.add(choosenClass);
-      contents.find(content=>content.localName===defaultContentName).classList.add(choosenClass);
     }
   })
 }
