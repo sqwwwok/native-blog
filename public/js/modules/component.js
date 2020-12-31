@@ -43,18 +43,31 @@ class Component extends HTMLElement {
 /** create and register component 
  * @param {string} name name must be kebal-case
  * @param {{
+ *    observedProps: Array<string>,
+ *    observer: (name:string, oldValue:string, newValue:string)=>void,
  *    slots: {[slotName:string]:Array<HTMLElement>}, 
  *    templates: Array<HTMLTemplateElement>, 
- *    expand: (param :{
+ *    expand: (clonedNodes :{
  *        templates:Array<HTMLElement>,
  *        slots:{[slotName:string]:Array<HTMLElement>}
  *    }) => void,
  *    styles: Array<string> 
- * }} param1
+ * }} option
  * @returns {Component}
  */
-function createComponent(name, {slots=[], templates=[], expand=()=>{}, styles=[]}) {
+function createComponent(name, {
+  observedProps=[],
+  slots=[], 
+  templates=[],
+  styles=[],
+  observer=()=>{}, 
+  expand=()=>{} 
+}) {
   let customComponent = class extends Component{
+    static get observedAttributes() {
+      return observedProps.slice();
+    }
+    
     constructor() {
       super();
 
@@ -84,6 +97,11 @@ function createComponent(name, {slots=[], templates=[], expand=()=>{}, styles=[]
         this.addStyle(createStyle(href));
       });
     }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      observer.call(this, name, oldValue, newValue);
+    }
+
   }
   window.customElements.define(name, customComponent);
   return customComponent;
