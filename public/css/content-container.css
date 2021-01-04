@@ -46,10 +46,11 @@ nav{
   background-color: gray;
 }
 
-iframe{
-  width: 100%;
-  height: 100%;
-  border: none;
+.content{
+  display: none;
+}
+.content.content-choosen{
+  display: block
 }
 .to-top{
   position: fixed;

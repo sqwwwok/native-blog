@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Native-Blog</title>
+  <link rel="shortcut icon" href="assets/images/default-profile.png" type="image/x-icon">
   <link rel="stylesheet" href="css/global.css">
 </head>
 <body id="top">
@@ -25,9 +26,39 @@
       <footer></footer>
     </template>
   
-    <template id="home"></template>
+    <template id="home">
+      <img src="assets/images/default-profile.png" title="profile">
+      <article>
+        Here is my intro
+      </article>
+      <div>
+        
+      </div>
+    </template>
   
-    <template id="blogs"></template>
+    <template id="blogs">
+      <div class="filte-form">
+        <input type="search" placeholder="search by title, keyword..." name="" id="">
+        <select name="tags" id="tag-select">
+          <option value="all">all</option>
+          <slot name="tag"></slot>
+        </select>
+        <select name="sort" id="sort-select">
+          <option value="date">date</option>
+          <slot name="sort"></slot>
+        </select>
+        <button>reverse</button>
+      </div>
+      <div class="filted-blogs">
+        <slot name="overview-of-blog"></slot>
+      </div>
+    </template>
+
+    <template id="overview-of-blog">
+      <slot name="title" class="overview-title"></slot>
+      <slot name="date" class="overview-date" ></slot>
+      <slot name="abstract" class="overview-abstract"></slot>
+    </template>
   
     <template id="docs"></template>
   </span>

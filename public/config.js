@@ -4,5 +4,5 @@ export default {
     "Blogs": "blogs-content",
     "Docs": "docs-content",
   },
-  favicon: "./assets/images/Blank-profile.png",
+  favicon: "./assets/images/default-profile.png",
 }

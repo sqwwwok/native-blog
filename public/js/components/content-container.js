@@ -7,8 +7,7 @@ import createChoice from '../modules/choose.js'
 export default function({ name, navgation, profile }) {
   const navTitles = Object.keys(navgation),
   contentAttrName = 'nav-to',
-  contentEls = navTitles.map(title=>_(navgation[title]));
-  console.log(contentEls)
+  contentEls = navTitles.map(title=>_(navgation[title]+'.content'));
   cc(name,{
     templates: [$1('#content-container')],
     slots: {
@@ -20,15 +19,16 @@ export default function({ name, navgation, profile }) {
     styles: ['../css/content-container.css'],
     expand({templates, slots}) {
       $1.call(templates[0],'img.profile').src=profile;
+      const defaultIndex = 1;
       const navItems = slots['menu'],
       contents = slots['content'],
       chooseNav = createChoice(navItems, {
         activeClassName: 'nav-choosen', 
-        defaultElementIndex:0
+        defaultElementIndex:defaultIndex
       }),
       chooseContent = createChoice(contents, {
         activeClassName:'content-choosen', 
-        defaultElementIndex:0
+        defaultElementIndex:defaultIndex
       });
       navItems.map(nav=>{
         nav.addEventListener('click', ()=>{

@@ -98,8 +98,8 @@ function createComponent(name, {
       });
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-      observer.call(this, name, oldValue, newValue);
+    attributeChangedCallback() {
+      observer.apply(this, arguments);
     }
 
   }
@@ -107,18 +107,38 @@ function createComponent(name, {
   return customComponent;
 }
 
-function createMiniComponent(name) {
+
+/**
+ * 
+ * @param {string} name 
+ * @param {{
+ *  roots:Array<HTMLElement>,
+ *  props:Array<string>,
+ * observer:(name:string, oldValue:string, newValue:string)=>void
+ * }} option 
+ * @returns {void}
+ */
+function createMiniComponent(name,{ roots=[], props=[], observer=()=>{} }) {
   let customComponent = class extends HTMLElement{
+    static get observedAttributes() {
+      return props.slice();
+    }
+
     constructor() {
       super();
       this.attachShadow({mode: 'open'});
+      roots = roots.map(el=>el.cloneNode(true));
+      this.shadowRoot.append(...roots);
     }
 
-    append(...elements) {
-      this.__proto__.append.apply(this.shadowRoot, elements.map(el=>el.cloneNode(true)));
+    attributeChangedCallback() {
+      observer.apply(this, arguments);
     }
   }
+  window.customElements.define(name, customComponent);
 }
 
-export default createComponent;
-export {createMiniComponent};
+export {
+  createComponent as default,
+  createMiniComponent
+}

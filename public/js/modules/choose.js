@@ -4,9 +4,9 @@
  * @param {{
  *    activeClassName:string,
  *    defaultElementIndex:number
- * }} param1 
+ * }} initialOption 
  * @returns {(validate: (element: HTMLElement)=>boolean) => 
- *      (param1: {
+ *      (processor: {
   *      processElementChoosen: (elementChoosen: HTMLElement)=>void,
   *      processElementNotChoosen: (elementNotChoosen: HTMLElement)=>void
   *    })=>void
@@ -26,7 +26,7 @@ function createChoice(elements, { activeClassName="choosen-elements", defaultEle
         elementsNotChoosen.push(element);
       }
     });
-    return function({processElementChoosen=()=>{}, processElementNotChoosen=()=>{}}){
+    return function({processElementChoosen=()=>{}, processElementNotChoosen=()=>{}}) {
       elementsChoosen.map(processElementChoosen);
       elementsNotChoosen.map(processElementNotChoosen);
     };
